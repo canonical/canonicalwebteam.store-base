@@ -4,9 +4,9 @@ Extensible flask application base for all stores.
 It gets response from the store_api and it extends each store blueprint to make a complete application
 """
 from canonicalwebteam.flask_base.app import FlaskBase
-import canonicalwebteam.store_base.config as config
+import canonicalwebteam.store_base.utils.config as config
 from canonicalwebteam.store_base.utils.extensions import csrf
-from canonicalwebteam.store_base.test_blueprint.views import test_bp
+from canonicalwebteam.store_base.sample_blueprint.views import test_bp
 
 
 """
