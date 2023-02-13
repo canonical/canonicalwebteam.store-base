@@ -1,3 +1,4 @@
+from pprint import pprint
 import talisker
 from flask import Blueprint, session, redirect, request, url_for, abort
 from flask_wtf.csrf import generate_csrf, validate_csrf
@@ -5,18 +6,19 @@ from canonicalwebteam.candid import CandidClient
 from canonicalwebteam.store_base.utils.helpers import is_safe_url
 from canonicalwebteam.store_base.auth.authentication import empty_session, is_authenticated
 
-login = Blueprint(
-    "login", __name__, template_folder="/templates", static_folder="/static"
-)
+# Login blueprint should be passed in at store level for now
+# login = Blueprint(
+#     "login", __name__, template_folder="/templates", static_folder="/static"
+# )
 
 request_session = talisker.requests.get_session()
 candid = CandidClient(request_session)
 
 
-@login.route("/logout")
-def logout():
+# @login.route("/logout")
+def logout(redirect_url):
     empty_session(session)
-    redirect("/")
+    return redirect(redirect_url, 302)
 
 
 """
@@ -28,8 +30,8 @@ when get_macaroon and issue_macaroon in SC and CH in store_api are unified
 
 
 # this route is presently login in CH and login-beta in SC
-@login.route("/login")
-def candid_login(macaroon_response, authenticated_user_redirect):
+# @login.route("/login")
+def candid_login(macaroon_response, cb_url, authenticated_user_redirect):
 
     if is_authenticated(session):
         return redirect(url_for(authenticated_user_redirect))
@@ -38,7 +40,7 @@ def candid_login(macaroon_response, authenticated_user_redirect):
 
     login_url = candid.get_login_url(
         macaroon=session["account-macaroon"],
-        callback_url=url_for("login.login_callback", _external=True),
+        callback_url=cb_url,
         state=generate_csrf(),
     )
 
@@ -53,8 +55,8 @@ def candid_login(macaroon_response, authenticated_user_redirect):
     return redirect(login_url, 302)
 
 
-@login.route("/login/callback")
-def login_callback(
+# @login.route("/login/callback")
+def candid_login_callback(
     account_api,
     exchange_macaroon_method,
     redirect_url,
@@ -79,8 +81,7 @@ def login_callback(
         session["account-macaroon"], candid_macaroon
     )
     session["account-auth"] = exchange_macaroon_method(issued_macaroon)
-
-    session.update(account_api.macaroon_info(session["account_auth"]))
+    session.update(account_api.macaroon_info(session["account-auth"]))
 
     if store_specific_logic:
         store_specific_logic()
