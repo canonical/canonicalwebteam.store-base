@@ -13,7 +13,7 @@ Package = TypedDict("Package_type", {"packages": List[Dict[str, Dict[str, str or
 """
 Fetch store packages, could be snaps, charms or bundles
 """
-def get_packages(store_publisher, fields, size, page=1):
+def get_packages(store_publisher, fields, size, page=1) -> List[Dict[str, Any]]:
     
     publisher_api = store_publisher(talisker.requests.get_session())
     packages = publisher_api.find(fields=fields).get("results", [])
