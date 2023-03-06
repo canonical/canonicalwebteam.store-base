@@ -92,3 +92,24 @@ def get_packages(store, fields: List[str], size: int=10, page: int=1) -> List[Di
       parsed_packages.append(parse_package_for_card(package, package["type"]))
       
   return parsed_packages
+
+def filter_packages(packages: List[Package], filter_params: Dict[str, List[str]]):
+  result = packages
+  for key, val in filter_params.items():
+    if key == "categories":
+      result = list(
+        filter(lambda package: len([cat for cat in package["categories"] if package["categories"] and cat["slug"] in val]) != 0,
+          result
+        )
+      )
+    if key == "platforms" or key == "architectures":
+      result = list(
+        filter(lambda package: len([p for p in package["platforms"] if p in val]) != 0,
+          result
+        )
+      )
+
+    if key == "package_type":
+      result = list(filter(lambda package: package["type"] in val, result))
+
+  return result
