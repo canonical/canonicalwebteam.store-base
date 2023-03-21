@@ -30,6 +30,7 @@ def package_type(package_type):
     
     publisher_api = publisher(talisker.requests.get_session())
     # this endpoint needs to be made generic in the future, so we wont have to check for package_type
+
     if app_name.startswith("charmhub"):
         publisher_packages = publisher_api.get_account_packages(
             session["account-auth"], "charm", include_collaborations=True
