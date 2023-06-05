@@ -23,7 +23,7 @@ store_packages = Blueprint(
 )
 
 
-@store_packages.route("/store")
+@store_packages.route("/store.json")
 def get_store_packages():
     app_name = app.name
     params = PACKAGE_PARAMS[app_name]
