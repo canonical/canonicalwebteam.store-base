@@ -1,4 +1,3 @@
-from pprint import pprint
 import talisker
 import flask
 from flask import (
