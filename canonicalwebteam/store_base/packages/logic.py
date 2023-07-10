@@ -207,9 +207,9 @@ def get_packages(
     if filters:
         parsed_packages = []
         for package in packages:
-            parsed_packages.append(parse_package_for_card(
-                package, store_name, store
-            ))
+            parsed_packages.append(
+                parse_package_for_card(package, store_name, store)
+            )
         filtered_packages = filter_packages(parsed_packages, filters)
         total_pages = -(len(filtered_packages) // -size)
         res = paginate(filtered_packages, page, size, total_pages)
@@ -218,9 +218,9 @@ def get_packages(
         packages_per_page = paginate(packages, page, size, total_pages)
         parsed_packages = []
         for package in packages_per_page:
-            parsed_packages.append(parse_package_for_card(
-                package, store_name, store
-            ))
+            parsed_packages.append(
+                parse_package_for_card(package, store_name, store)
+            )
         res = parsed_packages
 
     return {"packages": res, "total_pages": total_pages}
