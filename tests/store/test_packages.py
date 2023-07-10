@@ -16,7 +16,6 @@ from canonicalwebteam.store_api.stores.snapstore import SnapStore
 
 class TestPackages(unittest.TestCase):
     def test_parse_package(self):
-
         snap_result = parse_package_for_card(
             sample_snap, "snapcraft", SnapStore
         )
