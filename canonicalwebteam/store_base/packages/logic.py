@@ -115,6 +115,11 @@ def parse_package_for_card(
             "name": "",
             "platforms": [],
             "type": "",
+            "channel": {
+                "name": "",
+                "risk": "",
+                "track": "",
+            },
         },
         "publisher": {"display_name": "", "name": "", "validation": ""},
         "categories": [],
@@ -125,6 +130,9 @@ def parse_package_for_card(
     if store_name.startswith("charmhub"):
         result = package.get("result", {})
         publisher = result.get("publisher", {})
+        channel = package.get("default-release", {}).get("channel", {})
+        risk = channel.get("risk", "")
+        track = channel.get("track", "")
 
         resp["package"]["type"] = package.get("type", "")
         resp["package"]["name"] = package.get("name", "")
@@ -134,6 +142,9 @@ def parse_package_for_card(
         resp["package"]["display_name"] = result.get(
             "title", format_slug(package.get("name", ""))
         )
+        resp["package"]["channel"]["risk"] = risk
+        resp["package"]["channel"]["track"] = track
+        resp["package"]["channel"]["name"] = f"{track}/{risk}"
         resp["publisher"]["display_name"] = publisher.get("display-name", "")
         resp["publisher"]["validation"] = publisher.get("validation", "")
         resp["categories"] = result.get("categories", [])
