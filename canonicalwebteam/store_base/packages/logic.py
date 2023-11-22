@@ -31,20 +31,21 @@ Package = TypedDict(
 )
 
 
-def fetch_packages(store_api, fields: List[str]) -> Packages:
+def fetch_packages(store_api, fields: List[str], query) -> Packages:
     """
     Fetches packages from the store API based on the specified fields.
 
     :param: store_api: The specific store API object.
     :param: fields (List[str]): A list of fields to include in the package
     data.
+    :param: query: A search query
 
     :returns: a dictionary containing the list of fetched packages.
 
     note: the response is cached for a maximum age of 3600 seconds.
     """
     store = store_api(talisker.requests.get_session())
-    packages = store.find(fields=fields).get("results", [])
+    packages = store.find(fields=fields, query=query).get("results", [])
     response = make_response({"packages": packages})
     response.cache_control.max_age = 3600
     return response.json
@@ -84,7 +85,7 @@ def get_bundle_charms(charm_apps):
                     1
                 ]
 
-            charm = {"title": format_slug(name), "name": name}
+            charm = {"display_name": format_slug(name), "name": name}
 
             result.append(charm)
 
@@ -150,7 +151,7 @@ def parse_package_for_card(
         resp["categories"] = result.get("categories", [])
         resp["package"]["icon_url"] = helpers.get_icon(result.get("media", []))
 
-        platforms = result.get("platforms", [])
+        platforms = result.get("deployable-on", [])
         if platforms:
             resp["package"]["platforms"] = platforms
         else:
@@ -171,7 +172,7 @@ def parse_package_for_card(
                     "applications", bundle_details.get("services", [])
                 )
             )
-            resp["charms"] = bundle_charms
+            resp["package"]["charms"] = bundle_charms
 
     if store_name.startswith("snapcraft"):
         snap = package.get("snap", {})
@@ -229,6 +230,7 @@ def get_packages(
     fields: List[str],
     size: int = 10,
     page: int = 1,
+    query=None,
     filters: Dict = {},
 ) -> List[Dict[str, Any]]:
     """
@@ -242,12 +244,13 @@ def get_packages(
     :param: size (int, optional): The number of packages to include
             in each page. Defaults to 10.
     :param: page (int, optional): The current page number. Defaults to 1.
+    :param: query (str, optional): The search query.
     :param: filters (Dict, optional): The filter parameters. Defaults to {}.
     :returns: a dictionary containing the list of parsed packages and
             the total pages
     """
 
-    packages = fetch_packages(store, fields).get("packages", [])
+    packages = fetch_packages(store, fields, query).get("packages", [])
     total_pages = -(len(packages) // -size)
 
     if filters:
@@ -258,9 +261,11 @@ def get_packages(
             )
         filtered_packages = filter_packages(parsed_packages, filters)
         total_pages = -(len(filtered_packages) // -size)
+        total_items = len(filtered_packages)
         res = paginate(filtered_packages, page, size, total_pages)
     else:
         total_pages = -(len(packages) // -size)
+        total_items = len(packages)
         packages_per_page = paginate(packages, page, size, total_pages)
         parsed_packages = []
         for package in packages_per_page:
@@ -269,7 +274,11 @@ def get_packages(
             )
         res = parsed_packages
 
-    return {"packages": res, "total_pages": total_pages}
+    return {
+        "packages": res,
+        "total_pages": total_pages,
+        "total_items": total_items,
+    }
 
 
 def filter_packages(
