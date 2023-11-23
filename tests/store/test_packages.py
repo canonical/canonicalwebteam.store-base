@@ -10,8 +10,14 @@ from canonicalwebteam.store_base.packages.logic import (
     parse_package_for_card,
     paginate,
 )
-from canonicalwebteam.store_api.stores.charmstore import CharmStore, CharmPublisher
-from canonicalwebteam.store_api.stores.snapstore import SnapStore, SnapPublisher
+from canonicalwebteam.store_api.stores.charmstore import (
+    CharmStore,
+    CharmPublisher,
+)
+from canonicalwebteam.store_api.stores.snapstore import (
+    SnapStore,
+    SnapPublisher,
+)
 
 
 class TestPackages(unittest.TestCase):
