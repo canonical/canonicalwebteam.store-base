@@ -1,4 +1,3 @@
-from pprint import pprint
 import talisker
 import flask
 from flask import (
@@ -30,7 +29,6 @@ def init_packages(app):
         args.pop("page", {})
         args.pop("q", {})
         libraries = bool(args.pop("fields", ""))
-        pprint({"libraries": libraries})
         filters = args
         params = PACKAGE_PARAMS[app_name]
         store, publisher, fields, size = (
@@ -120,7 +118,6 @@ def init_packages(app):
         app_name = app.name
 
         has_libraries = bool(request.args.get("fields", ""))
-        pprint(has_libraries)
         params = PACKAGE_PARAMS[app_name]
         store, publisher, fields = (
             params["store"],
