@@ -1,4 +1,5 @@
 import os
+from pprint import pprint
 import responses
 import unittest
 from urllib.parse import urlencode
@@ -31,7 +32,7 @@ class TestStoreEndpoint(unittest.TestCase):
                 "snaps/find",
                 "?",
                 urlencode(
-                    {"fields": "title,summary,media,publisher,categories"}
+                    {"featured": "false", "fields": "title,summary,media,publisher,categories"}
                 ),
             ]
         )
@@ -126,7 +127,8 @@ class TestStoreEndpointWithSnapcraft(TestStoreEndpoint):
                 status=200,
             )
         )
-
+        pprint("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        pprint(self.snaps_api_url)
         responses.add(
             responses.Response(
                 method="GET",
