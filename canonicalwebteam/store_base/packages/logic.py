@@ -74,13 +74,11 @@ def fetch_packages(store_api, fields: List[str], query_params) -> Packages:
                 filtered_packages.append(p)
         packages = filtered_packages
 
-
     if architecture and architecture != "all":
         args["architecture"] = architecture
         packages = store.find(**args).get("results", [])
 
     return packages
-
 
 
 def fetch_package(store_api, package_name: str, fields: List[str]) -> Package:
