@@ -49,6 +49,8 @@ def fetch_packages(store_api, fields: List[str], query_params) -> Packages:
     package_type = query_params.get("type", None)
     platform = query_params.get("platforms", "")
     architecture = query_params.get("architecture", "")
+    provides = query_params.get("provides", None)
+    requires = query_params.get("requires", None)
 
     if package_type == "all":
         package_type = None
@@ -61,6 +63,14 @@ def fetch_packages(store_api, fields: List[str], query_params) -> Packages:
 
     if package_type:
         args["type"] = package_type
+
+    if provides:
+        provides = provides.split(",")
+        args["provides"] = provides
+
+    if requires:
+        requires = requires.split(",")
+        args["requires"] = requires
 
     packages = store.find(**args).get("results", [])
 
