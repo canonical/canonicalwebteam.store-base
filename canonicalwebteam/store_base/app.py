@@ -5,6 +5,7 @@ It gets response from the store_api and it extends
 
 each store blueprint to make a complete application
 """
+
 from canonicalwebteam.flask_base.app import FlaskBase
 import canonicalwebteam.store_base.utils.config as config
 from canonicalwebteam.store_base.packages.views import init_packages

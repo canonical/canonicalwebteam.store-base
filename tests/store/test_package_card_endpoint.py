@@ -62,8 +62,8 @@ class TestPackageCardEndpointWithCharmhub(TestPackageCardEndpoint):
     @responses.activate
     def test_package_endpoint_with_charmhub(self):
         os.environ["SECRET_KEY"] = "secret_key"
-        app = create_app("charmhub_beta", login_required_test, testing=True)
-        app.name = "charmhub_beta"
+        app = create_app("charmhub", login_required_test, testing=True)
+        app.name = "charmhub"
         app.config["WTF_CSRF_METHODS"] = []
         app.testing = True
         client = app.test_client()
@@ -86,8 +86,8 @@ class TestPackageCardEndpointWithSnapcraft(TestPackageCardEndpoint):
     @responses.activate
     def test_package_endpoint_with_snapcraft(self):
         os.environ["SECRET_KEY"] = "secret_key"
-        app = create_app("snapcraft_beta", login_required_test, testing=True)
-        app.name = "snapcraft_beta"
+        app = create_app("snapcraft", login_required_test, testing=True)
+        app.name = "snapcraft"
         app.config["WTF_CSRF_METHODS"] = []
         app.testing = True
         client = app.test_client()
