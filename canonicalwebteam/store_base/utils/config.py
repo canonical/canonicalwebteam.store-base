@@ -14,7 +14,7 @@ SECRET_KEY = os.getenv("SECRET_KEY", "secret-key")
 
 # we want to ensure the keys matches the app name for each store for now
 PACKAGE_PARAMS = {
-    "snapcraft_beta": {
+    "snapcraft": {
         "store": SnapStore,
         "publisher": SnapPublisher,
         "fields": [
@@ -36,7 +36,7 @@ PACKAGE_PARAMS = {
         ],
         "size": 15,
     },
-    "charmhub_beta": {
+    "charmhub": {
         "store": CharmStore,
         "publisher": CharmPublisher,
         "fields": [
