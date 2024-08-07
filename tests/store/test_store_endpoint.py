@@ -17,7 +17,7 @@ def login_required_test(func):
     @functools.wraps(func)
     def is_user_logged_in(*args, **kwargs):
         if "publisher" not in flask.session:
-            return flask.redirect(f"/login?next=/beta/{flask.request.path}")
+            return flask.redirect(f"/login?next=/{flask.request.path}")
         return func(*args, **kwargs)
 
     return is_user_logged_in
