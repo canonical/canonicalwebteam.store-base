@@ -92,13 +92,13 @@ Werkzeug = ">=2.3.7,<3.0.0"
 
 [[package]]
 name = "canonicalwebteam-store-api"
-version = "4.8.0"
+version = "4.14.0"
 description = ""
 optional = false
-python-versions = ">=3.6,<4.0"
+python-versions = "<4.0,>=3.6"
 files = [
-    {file = "canonicalwebteam_store_api-4.8.0-py3-none-any.whl", hash = "sha256:9edba757da5d74c763dfbbd3ef6e8f15e5549b304d50b2f8ab3e8c143e8683fc"},
-    {file = "canonicalwebteam_store_api-4.8.0.tar.gz", hash = "sha256:c671a49fe93ab01af8af0c87d93a8e145a4d9b507bdf2e7c006cbc0f475a49a4"},
+    {file = "canonicalwebteam_store_api-4.14.0-py3-none-any.whl", hash = "sha256:51ea30f433de2da56e16c75ff6566ec942e00c2700f9f57fae646a3c862d9b11"},
+    {file = "canonicalwebteam_store_api-4.14.0.tar.gz", hash = "sha256:65e4d06aa9b63d49c5b8d7d78fa3b50faa6704c9e5398f178d6a30fc343e39dd"},
 ]
 
 [package.dependencies]
